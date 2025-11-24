@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LOOKING GOOD — CRAZY AMUSING</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#e11d48; --accent-2:#7c3aed; --muted:#94a3b8; --glass: rgba(255,255,255,0.04);
+      --maxw:1100px; --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#071029 0%, #081226 60%);color:#e6eef7;min-height:100vh;}
+    .container{max-width:var(--maxw);margin:36px auto;padding:18px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:white}
+    .titles{line-height:1}
+    .titles .headline{font-size:18px;font-weight:700;letter-spacing:0.6px}
+    .titles .sub{font-size:12px;color:var(--muted);margin-top:3px}
+
+    /* CTA */
+    .actions{display:flex;gap:10px}
+    .btn{border:0;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+
+    /* Gallery */
+    .gallery{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    @media(min-width:800px){.gallery{grid-template-columns:repeat(3,1fr)}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
+    .card img{width:100%;height:240px;object-fit:cover;border-radius:8px}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .title{font-weight:700}
+    .price{font-weight:800;color:var(--accent)}
+
+    /* Cart */
+    .cartbar{position:fixed;right:18px;bottom:18px;width:360px;max-width:92vw;border-radius:14px;background:linear-gradient(180deg,#041226, #06182a);box-shadow:0 18px 50px rgba(4,8,20,0.6);padding:12px;border:1px solid rgba(255,255,255,0.04)}
+    .cartbar h4{margin:0 0 8px 0}
+    .cart-items{max-height:260px;overflow:auto;margin-bottom:8px}
+    .cart-item{display:flex;gap:8px;align-items:center;padding:8px;border-radius:10px}
+    .cart-item img{width:54px;height:54px;object-fit:cover;border-radius:6px}
+    .cart-item .info{flex:1}
+    .cart-item .qty{font-size:13px;color:var(--muted)}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);padding:18px}
+    .modal.open{display:flex}
+    .modal-card{width:100%;max-width:900px;background:linear-gradient(180deg,#071026,#081327);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04)}
+    .modal-grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+    @media(max-width:780px){.modal-grid{grid-template-columns:1fr}}
+
+    /* Uploads & footer */
+    .upload{margin-top:18px;padding:12px;border-radius:12px;background:var(--glass);border:1px dashed rgba(255,255,255,0.04);text-align:center}
+    input[type=file]{display:none}
+    .small{font-size:13px;color:var(--muted)}
+
+    footer{margin-top:36px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* tiny helpers */
+    .flex{display:flex;align-items:center}
+    .space{height:12px}
+    .pill{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">CA</div>
+        <div class="titles">
+          <div class="headline">LOOKING GOOD</div>
+          <div class="sub">CRAZY AMUSING — Photo shop & prints</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="openUpload">Upload</button>
+        <button class="btn ghost" id="toggleCart">Cart (<span id="cartCount">0</span>)</button>
+      </div>
+    </header>
+
+    <main>
+      <p class="small" style="margin-top:14px">Post photos here and list them for sale. Click a photo to open and buy. Prices are editable in the code or via the admin upload form.</p>
+
+      <div class="gallery" id="gallery"></div>
+
+      <div class="upload" id="uploader">
+        <label for="fileInput" style="cursor:pointer" class="btn">Select photos to add</label>
+        <input id="fileInput" type="file" accept="image/*" multiple />
+        <div class="space"></div>
+        <div class="small">Files are stored only in your browser (for demo). To make this live you will need to upload images to your hosting or a storage service and update the image URLs.</div>
+      </div>
+
+    </main>
+
+    <div class="space"></div>
+
+    <footer>Made with ❤️ by CRAZY AMUSING — Sell prints, downloads, or physical merchandise. <span class="pill">Local demo</span></footer>
+  </div>
+
+  <!-- Cart panel (hidden by default) -->
+  <div class="cartbar" id="cartBar" style="display:none">
+    <h4>Your cart</h4>
+    <div class="cart-items" id="cartItems"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="small">Total: <strong id="cartTotal">R0.00</strong></div>
+      <button class="btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Modal for photo view + buy -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div>
+          <div style="font-weight:800;font-size:18px">Photo</div>
+          <div class="small" id="modalTitle">Title</div>
+        </div>
+        <div><button class="btn ghost" id="closeModal">Close</button></div>
+      </div>
+      <div class="modal-grid">
+        <div id="modalImageArea" style="border-radius:10px;overflow:hidden;background:#091322;display:flex;align-items:center;justify-content:center;min-height:360px"></div>
+        <aside style="background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:10px">
+          <div style="font-size:20px;font-weight:800;color:var(--accent)" id="modalPrice">R0.00</div>
+          <p class="small" style="margin-top:8px">Format: Digital download or order print. Select quantity and click buy to add to cart.</p>
+          <div style="margin-top:12px">
+            <label class="small">Quantity</label>
+            <div style="display:flex;gap:8px;margin-top:6px">
+              <button class="btn ghost" id="decQty">-</button>
+              <div id="qty" style="padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.02);min-width:36px;text-align:center">1</div>
+              <button class="btn ghost" id="incQty">+</button>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:8px">
+            <button class="btn" id="addToCart">Add to cart</button>
+            <button class="btn ghost" id="buyNow">Buy now</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout modal (simple form) -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div><div style="font-weight:800;font-size:18px">Checkout</div><div class="small">Fill in details to complete purchase</div></div>
+        <div><button class="btn ghost" id="closeCheckout">Close</button></div>
+      </div>
+      <form id="checkoutForm" style="display:grid;gap:8px">
+        <input type="text" id="buyerName" placeholder="Full name" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+        <input type="email" id="buyerEmail" placeholder="Email address" required style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+        <div style="display:flex;gap:8px"><input placeholder="Phone (optional)" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" /><input placeholder="Postal address (for prints)" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" /></div>
+        <div class="small">Note: This demo does not process payments. To accept real payments, integrate Stripe / PayPal — see comments in the code.</div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px"><button class="btn" type="submit">Place order</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Demo gallery app: stores images and cart in localStorage. Replace with server storage + payment gateway for production.
+    const sample = [
+      {id:'img1',title:'Sunset Giggle',price:120,src:'https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'},
+      {id:'img2',title:'Neon Smile',price:180,src:'https://images.unsplash.com/photo-1511763368359-6e94d1c1d5a8?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'},
+      {id:'img3',title:'Carnival Pop',price:95,src:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'},
+    ];
+
+    const galleryEl = document.getElementById('gallery');
+    const cartBar = document.getElementById('cartBar');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const modal = document.getElementById('modal');
+    const modalImageArea = document.getElementById('modalImageArea');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const qtyEl = document.getElementById('qty');
+    const checkoutModal = document.getElementById('checkoutModal');
+
+    let gallery = JSON.parse(localStorage.getItem('crazy_gallery') || 'null') || sample;
+    let cart = JSON.parse(localStorage.getItem('crazy_cart') || '[]');
+
+    function formatCurrency(n){return 'R' + Number(n).toFixed(2)}
+
+    function renderGallery(){
+      galleryEl.innerHTML='';
+      gallery.forEach(item=>{
+        const c = document.createElement('div'); c.className='card';
+        c.innerHTML = `\n          <img src="${item.src}" alt="${item.title}"/>\n          <div class="meta">\n            <div class="title">${item.title}</div>\n            <div class="price">${formatCurrency(item.price)}</div>\n          </div>`;
+        c.onclick = ()=>openModal(item);
+        galleryEl.appendChild(c);
+      })
+    }
+
+    function saveState(){localStorage.setItem('crazy_gallery', JSON.stringify(gallery)); localStorage.setItem('crazy_cart', JSON.stringify(cart));}
+
+    function renderCart(){
+      cartItemsEl.innerHTML='';
+      if(cart.length===0){cartItemsEl.innerHTML='<div class="small">Your cart is empty</div>'; cartBar.style.display='none'; document.getElementById('cartCount').innerText=0; return}
+      cartBar.style.display='block';
+      let total=0; cart.forEach(ci=>{
+        const g = gallery.find(x=>x.id===ci.id) || {};
+        total += (ci.qty * (g.price||0));
+        const el = document.createElement('div'); el.className='cart-item';
+        el.innerHTML = `<img src="${g.src}" alt="${g.title}"/><div class="info"><div style=\"font-weight:700\">${g.title}</div><div class=\"qty\">Qty: ${ci.qty} • ${formatCurrency(g.price)}</div></div><div style=\"text-align:right\"><button class=\"btn ghost\" data-id=\"${ci.id}\">Remove</button></div>`;
+        el.querySelector('button').onclick = (e)=>{ removeFromCart(ci.id); }
+        cartItemsEl.appendChild(el);
+      })
+      cartCountEl.innerText = cart.reduce((s,i)=>s+i.qty,0);
+      cartTotalEl.innerText = formatCurrency(total);
+    }
+
+    function addToCart(id,qty=1){
+      const existing = cart.find(c=>c.id===id);
+      if(existing) existing.qty += qty; else cart.push({id,qty});
+      saveState(); renderCart();
+      alert('Added to cart');
+    }
+
+    function removeFromCart(id){ cart = cart.filter(c=>c.id!==id); saveState(); renderCart(); }
+
+    function openModal(item){
+      document.getElementById('modalTitle').innerText = item.title;
+      document.getElementById('modalPrice').innerText = formatCurrency(item.price);
+      modalImageArea.innerHTML = `<img src="${item.src}" style=\"max-width:100%;max-height:520px;object-fit:contain;border-radius:8px\"/>`;
+      modal.dataset.current = item.id;
+      qtyEl.innerText = 1;
+      modal.classList.add('open');
+    }
+
+    // wire modal buttons
+    document.getElementById('closeModal').onclick = ()=> modal.classList.remove('open');
+    document.getElementById('decQty').onclick = ()=>{ let q = Number(qtyEl.innerText); if(q>1) qtyEl.innerText = q-1; }
+    document.getElementById('incQty').onclick = ()=>{ let q = Number(qtyEl.innerText); qtyEl.innerText = q+1; }
+    document.getElementById('addToCart').onclick = ()=>{ const id = modal.dataset.current; const q = Number(qtyEl.innerText); addToCart(id,q); modal.classList.remove('open'); }
+    document.getElementById('buyNow').onclick = ()=>{ const id = modal.dataset.current; const q = Number(qtyEl.innerText); addToCart(id,q); modal.classList.remove('open'); openCheckout(); }
+
+    // cart toggle & checkout
+    document.getElementById('toggleCart').onclick = ()=>{ cartBar.style.display = cartBar.style.display==='none' ? 'block' : 'none'; }
+    document.getElementById('checkoutBtn').onclick = openCheckout;
+    function openCheckout(){ checkoutModal.classList.add('open'); }
+    document.getElementById('closeCheckout').onclick = ()=> checkoutModal.classList.remove('open');
+
+    // upload flow: reads files and stores data URL in gallery (local only)
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', async (e)=>{
+      const files = Array.from(e.target.files);
+      for(const f of files){
+        const data = await readFileAsDataURL(f);
+        const id = 'u' + Date.now() + Math.random().toString(36).slice(2,8);
+        const price = prompt('Set price for "' + (f.name||'photo') + '" (numbers only, e.g. 120) — cancel to skip', '120');
+        if(price===null) continue;
+        gallery.unshift({id,title:f.name || 'Photo',price: Number(price)||120,src:data});
+      }
+      saveState(); renderGallery();
+    });
+
+    function readFileAsDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+
+    // simple checkout form handling
+    document.getElementById('checkoutForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('buyerName').value;
+      const email = document.getElementById('buyerEmail').value;
+      if(!name || !email){alert('Please provide name and email');return}
+      // compile order summary
+      const order = {buyer:{name,email},items:cart.map(ci=>{const g=gallery.find(x=>x.id===ci.id); return {title:g.title,qty:ci.qty,price:g.price}}),total:cart.reduce((s,i)=>{const g=gallery.find(x=>x.id===i.id); return s + (g.price * i.qty)},0),date:new Date().toISOString()}
+      console.log('ORDER (demo):',order);
+      // In production: send `order` to your backend and redirect to payment gateway (Stripe/PayPal).
+      alert('Order placed (demo). Check console for order details. To accept real payments, integrate a payment gateway — instructions in code comments.');
+      cart = []; saveState(); renderCart(); checkoutModal.classList.remove('open');
+    });
+
+    // helpers
+    function init(){ renderGallery(); renderCart(); }
+    init();
+
+    // EXPLAINER (not code):
+    // This is a local demo. For a production-ready shop:
+    // 1) Store images on a server or object storage (S3, Cloudinary) and save metadata in a database.
+    // 2) Implement a server-side order endpoint that creates an order and returns a payment session.
+    // 3) Integrate Stripe Checkout or PayPal smart buttons to process payments securely.
+    // 4) After successful payment, mark order as paid and deliver download links or ship prints.
+
+  </script>
+</body>
+</html>
